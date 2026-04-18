@@ -1,0 +1,81 @@
+version: '3.4'
+name: Microservice 
+
+services:
+
+  gateway:
+    image: my-gateway-service
+    build:
+      context: .
+      dockerfile: Gateway/Gateway/Dockerfile
+    environment:
+      - ASPNETCORE_HTTP_PORTS=8001
+    networks:
+      - microservice-network
+
+  customer-service:
+    image: my-customer-service
+    build:
+      context: .
+      dockerfile: Microservice/Customer/Dockerfile
+    environment:
+      - ASPNETCORE_HTTP_PORTS=8080
+      - ASPNETCORE_HTTPS_PORTS=8081
+    networks:
+      - microservice-network
+
+  product-service:
+    container_name: product-api
+    image: ${DOCKER_REGISTRY-}product
+    build:
+        context: .
+        dockerfile: Microservice/Product/Dockerfile
+    environment:
+      - ASPNETCORE_HTTP_PORTS=8083
+      - ASPNETCORE_HTTPS_PORTS=8084
+        # - DB_HOST=mongodb
+        # - DB_NAME=MyDb
+    networks:
+      - microservice-network
+
+  order-service:
+    container_name: order-api
+    image: ${DOCKER_REGISTRY-}order
+    build:
+        context: .
+        dockerfile: Microservice/Order/Dockerfile
+    environment:
+      - ASPNETCORE_HTTP_PORTS=8085
+      - ASPNETCORE_HTTPS_PORTS=8086
+    networks:
+      - microservice-network
+
+networks:
+  microservice-network:
+    driver: bridge
+  # order:
+  #   container_name: order-api
+  #   image: ${DOCKER_REGISTRY-}order
+  #   build:
+  #     context: .
+  #     dockerfile: Microservice/Order/Dockerfile
+  #   environment:
+  #     - DB_HOST=mongodb
+  #     - DB_NAME=MyDb
+
+  # product:
+  #   container_name: product-api
+  #   image: ${DOCKER_REGISTRY-}product
+  #   build:
+  #     context: .
+  #     dockerfile: Microservice/Product/Dockerfile
+  #   environment:
+  #     - DB_HOST=mongodb
+  #     - DB_NAME=MyDb
+
+  # mongodb:
+  #   container_name: order-db
+  #   image: mongo
+  #   ports:
+  #     - 18005:27017
+

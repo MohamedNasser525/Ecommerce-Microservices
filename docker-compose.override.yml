@@ -1,0 +1,69 @@
+version: '3.4'
+name: Microservice 
+
+services:
+  gateway:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "5206:8001"  # Maps http://localhost:5206 to Gateway
+    volumes:
+      - ~/.aspnet/https:/https:ro
+
+  customer-service:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "5222:8080"  # Maps http://localhost:5222 to Customer HTTP
+      - "7199:8081"  # Maps https://localhost:7199 to Customer HTTPS
+    volumes:
+      - ~/.aspnet/https:/https:ro
+
+  product-service:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports: # "https://localhost:7114;http://localhost:5022"
+    - "5022:8083" 
+    - "7114:8084"
+    volumes:
+      - ~/.aspnet/https:/https:ro
+
+  order-service:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports: # "https://localhost:7098;http://localhost:5273"
+    - "5273:8085" 
+    - "7098:8086"
+    volumes:
+      - ~/.aspnet/https:/https:ro
+
+
+  #   environment:
+  #     - ASPNETCORE_ENVIRONMENT=Development
+  #     - ASPNETCORE_HTTP_PORTS=8080
+  #     - ASPNETCORE_HTTPS_PORTS=8081
+  #   ports:
+  #     - "8080"
+  #     - "8081"
+  #   volumes:
+  #     - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
+  #     - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
+
+  # gateway:
+  #  environment:
+  #     - ASPNETCORE_ENVIRONMENT=Development
+  #  ports:
+  #   - "80"
+
+
+  # order:
+  #  environment:
+  #     - ASPNETCORE_ENVIRONMENT=Development
+  #  ports:
+  #   - "80"
+
+  # product:
+  #   environment:
+  #     - ASPNETCORE_ENVIRONMENT=Development
+  #   ports:
+  #   - "80"

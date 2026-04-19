@@ -243,12 +243,6 @@ dotnet run --project Microservice/Order/Order.csproj
 docker compose up --build
 ```
 
-This starts:
-
-- `gateway`
-- `customer-service`
-- `product-service`
-- `order-service`
 
 Note:
 

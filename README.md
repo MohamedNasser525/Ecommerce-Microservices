@@ -31,7 +31,6 @@ The solution demonstrates:
   - [Option 3: Run with Docker Compose](#option-3-run-with-docker-compose)
 - [Notes](#notes)
 - [Future Improvements](#future-improvements)
-- [License](#license)
   
 ## Solution Structure
 
@@ -217,7 +216,3 @@ Note:
 - add containerized SQL Server and MongoDB services to `docker-compose.yml`
 - add tests for controllers, services, and repositories
 - add centralized logging and health checks
-
-## License
-
-This project is provided for learning and development purposes.

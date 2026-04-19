@@ -89,14 +89,22 @@ Main features:
 ### API Flow
 
 ```text
-Client
-  |
-  v
-Ocelot Gateway
-  |
-  +--> Customer Service
-  +--> Product Service
-  `--> Order Service
+                  +---------+
+                  | Client  |
+                  +----+----+
+                       |
+                       v
+              +------------------+
+              |  Ocelot Gateway  |
+              +----+------+------+ 
+                 |       |      |   
+     +------------       |      ------------+
+     |                   |                  |
+     v                   v                  v
++------------+     +-------------+     +-----------+
+| Customer   |     | Product     |     | Order     |
+| Service    |     | Service     |     | Service   |
++------------+     +-------------+     +-----------+
 ```
 
 ### Product Service Architecture

@@ -120,7 +120,6 @@ Controller -> Service -> Repository -> MongoDB
 - `SQL Server`
 - `MongoDB`
 - `Docker Compose`
-- `Swagger / OpenAPI`
 
 ## Requirements
 

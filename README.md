@@ -12,6 +12,31 @@ The solution demonstrates:
   Order uses MongoDB
 - Docker Compose for running the services together
 
+## Table of Contents
+
+- [Solution Structure](#solution-structure)
+- [Projects](#projects)
+  - [Gateway](#gateway)
+  - [Customer Service](#customer-service)
+  - [Product Service](#product-service)
+  - [Order Service](#order-service)
+- [Architecture Overview](#architecture-overview)
+  - [API Flow](#api-flow)
+  - [Product Service Architecture](#product-service-architecture)
+  - [Order Service Architecture](#order-service-architecture)
+- [Technologies](#technologies)
+- [Requirements](#requirements)
+- [Configuration](#configuration)
+  - [Product Service](#product-service-configuration)
+  - [Order Service](#order-service-configuration)
+- [Running the Project](#running-the-project)
+  - [Option 1: Run with Visual Studio](#option-1-run-with-visual-studio)
+  - [Option 2: Run from the command line](#option-2-run-from-the-command-line)
+  - [Option 3: Run with Docker Compose](#option-3-run-with-docker-compose)
+- [Notes](#notes)
+- [Future Improvements](#future-improvements)
+- [License](#license)
+  
 ## Solution Structure
 
 ```text
@@ -133,9 +158,9 @@ Controller -> Service -> Repository -> MongoDB
 
 Before running the solution, make sure you have:
 
-- `.NET 8 SDK`
+- `.NET 8 SDK.`
 - `Docker Desktop` if you want to run with containers
-- `SQL Server` available for the product service
+- `SQL Server` is available for the product service
 - `MongoDB` available for the order service
 
 ## Configuration
@@ -166,7 +191,7 @@ Expected keys:
 
 ```json
 "MongoDb": {
-  "ConnectionURl": "mongodb://localhost:27017",
+  "ConnectionURL": "mongodb://localhost:27017",
   "DatabaseName": "MyDb",
   "CollectionName": "Orders"
 }
@@ -226,56 +251,6 @@ Note:
 - the compose file starts the API containers
 - external database containers are not currently defined in the active compose configuration
 - you may need local SQL Server and MongoDB running separately unless you extend `docker-compose.yml`
-
-## Gateway Routes
-
-Current configured routes include:
-
-- `GET /api/Customer`
-- `GET, POST /api/Product`
-- `GET /api/Product/ping`
-- `GET /api/Product/category/{categoryId}`
-- `GET, PUT, DELETE /api/Product/{id}`
-- `GET, POST /api/Category`
-- `GET, PUT, DELETE /api/Category/{id}`
-- `GET, POST /api/Order`
-- `GET /api/Order/ping`
-- `GET, PUT, DELETE /api/Order/{orderId}`
-
-These routes are defined in `Gateway/Gateway/ocelot.json`.
-
-## Example Endpoints
-
-Customer:
-
-- `GET /api/Customer`
-
-Product:
-
-- `GET /api/Product`
-- `POST /api/Product`
-- `GET /api/Product/{id}`
-- `PUT /api/Product/{id}`
-- `DELETE /api/Product/{id}`
-- `GET /api/Product/category/{categoryId}`
-- `GET /api/Product/ping`
-
-Category:
-
-- `GET /api/Category`
-- `POST /api/Category`
-- `GET /api/Category/{id}`
-- `PUT /api/Category/{id}`
-- `DELETE /api/Category/{id}`
-
-Order:
-
-- `GET /api/Order`
-- `POST /api/Order`
-- `GET /api/Order/{orderId}`
-- `PUT /api/Order/{orderId}`
-- `DELETE /api/Order/{orderId}`
-- `GET /api/Order/ping`
 
 ## Notes
 

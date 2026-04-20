@@ -21,7 +21,7 @@ The solution demonstrates:
   - [Product Service](#product-service)
   - [Order Service](#order-service)
 - [Architecture Overview](#architecture-overview)
-  - [API Flow](#api-flow)
+  - [System Architecture](#system-architecture)
   - [Product Service Architecture](#product-service-architecture)
   - [Order Service Architecture](#order-service-architecture)
 - [Technologies](#technologies)

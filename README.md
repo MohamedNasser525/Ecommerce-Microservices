@@ -12,6 +12,26 @@ The solution demonstrates:
   Order uses MongoDB
 - Docker Compose for running the services together
 
+## Table of Contents
+
+- [Solution Structure](#solution-structure)
+- [Projects](#projects)
+  - [Gateway](#gateway)
+  - [Customer Service](#customer-service)
+  - [Product Service](#product-service)
+  - [Order Service](#order-service)
+- [Architecture Overview](#architecture-overview)
+  - [API Flow](#api-flow)
+  - [Product Service Architecture](#product-service-architecture)
+  - [Order Service Architecture](#order-service-architecture)
+- [Technologies](#technologies)
+- [Running the Project](#running-the-project)
+  - [Option 1: Run with Visual Studio](#option-1-run-with-visual-studio)
+  - [Option 2: Run from the command line](#option-2-run-from-the-command-line)
+  - [Option 3: Run with Docker Compose](#option-3-run-with-docker-compose)
+- [Notes](#notes)
+- [Future Improvements](#future-improvements)
+  
 ## Solution Structure
 
 ```text
@@ -89,14 +109,26 @@ Main features:
 ### API Flow
 
 ```text
-Client
-  |
-  v
-Ocelot Gateway
-  |
-  +--> Customer Service
-  +--> Product Service
-  `--> Order Service
+                    +---------+
+                    | Client  |
+                    +----+----+
+                         |
+                         v
+                +------------------+
+                |  Ocelot Gateway  |
+                +----+------+------+ 
+                 |       |       |   
+     +------------       |       -----------+
+     |                   |                  |
+     v                   v                  v
++------------+     +-------------+     +-----------+
+| Customer   |     | Product     |     | Order     |
+| Service    |     | Service     |     | Service   |
++------------+     +-------------+     +-----------+
+      |                  |                   |
++------------+     +-------------+     +-----------+
+| Sql Server |     | Sql Server  |     | mongodb   |
++------------+     +-------------+     +-----------+
 ```
 
 ### Product Service Architecture
@@ -120,50 +152,6 @@ Controller -> Service -> Repository -> MongoDB
 - `SQL Server`
 - `MongoDB`
 - `Docker Compose`
-- `Swagger / OpenAPI`
-
-## Requirements
-
-Before running the solution, make sure you have:
-
-- `.NET 8 SDK`
-- `Docker Desktop` if you want to run with containers
-- `SQL Server` available for the product service
-- `MongoDB` available for the order service
-
-## Configuration
-
-### Product Service
-
-The product service reads its SQL Server connection string from:
-
-- `Microservice/Product/appsettings.json`
-
-Expected key:
-
-```json
-"ConnectionStrings": {
-  "DefaultConnection": "YOUR_SQL_SERVER_CONNECTION_STRING"
-}
-```
-
-Use your own local or development connection string. Do not commit production credentials.
-
-### Order Service
-
-The order service reads MongoDB settings from:
-
-- `Microservice/Order/appsettings.json`
-
-Expected keys:
-
-```json
-"MongoDb": {
-  "ConnectionURl": "mongodb://localhost:27017",
-  "DatabaseName": "MyDb",
-  "CollectionName": "Orders"
-}
-```
 
 ## Running the Project
 
@@ -207,68 +195,12 @@ dotnet run --project Microservice/Order/Order.csproj
 docker compose up --build
 ```
 
-This starts:
-
-- `gateway`
-- `customer-service`
-- `product-service`
-- `order-service`
 
 Note:
 
 - the compose file starts the API containers
 - external database containers are not currently defined in the active compose configuration
 - you may need local SQL Server and MongoDB running separately unless you extend `docker-compose.yml`
-
-## Gateway Routes
-
-Current configured routes include:
-
-- `GET /api/Customer`
-- `GET, POST /api/Product`
-- `GET /api/Product/ping`
-- `GET /api/Product/category/{categoryId}`
-- `GET, PUT, DELETE /api/Product/{id}`
-- `GET, POST /api/Category`
-- `GET, PUT, DELETE /api/Category/{id}`
-- `GET, POST /api/Order`
-- `GET /api/Order/ping`
-- `GET, PUT, DELETE /api/Order/{orderId}`
-
-These routes are defined in `Gateway/Gateway/ocelot.json`.
-
-## Example Endpoints
-
-Customer:
-
-- `GET /api/Customer`
-
-Product:
-
-- `GET /api/Product`
-- `POST /api/Product`
-- `GET /api/Product/{id}`
-- `PUT /api/Product/{id}`
-- `DELETE /api/Product/{id}`
-- `GET /api/Product/category/{categoryId}`
-- `GET /api/Product/ping`
-
-Category:
-
-- `GET /api/Category`
-- `POST /api/Category`
-- `GET /api/Category/{id}`
-- `PUT /api/Category/{id}`
-- `DELETE /api/Category/{id}`
-
-Order:
-
-- `GET /api/Order`
-- `POST /api/Order`
-- `GET /api/Order/{orderId}`
-- `PUT /api/Order/{orderId}`
-- `DELETE /api/Order/{orderId}`
-- `GET /api/Order/ping`
 
 ## Notes
 
@@ -284,7 +216,3 @@ Order:
 - add containerized SQL Server and MongoDB services to `docker-compose.yml`
 - add tests for controllers, services, and repositories
 - add centralized logging and health checks
-
-## License
-
-This project is provided for learning and development purposes.

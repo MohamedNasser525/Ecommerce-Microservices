@@ -106,7 +106,7 @@ Main features:
 
 ## Architecture Overview
 
-### API Flow
+### System Architecture
 
 ```text
                     +---------+
@@ -116,6 +116,7 @@ Main features:
                          v
                 +------------------+
                 |  Ocelot Gateway  |
+                |  (Rate Limiter)  |
                 +----+------+------+ 
                  |       |        |   
      +------------       |        -----------------+

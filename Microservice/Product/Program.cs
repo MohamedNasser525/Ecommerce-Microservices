@@ -1,4 +1,6 @@
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.EntityFrameworkCore;
+using ProductService.Grpc;
 using ProductService.Models;
 using ProductService.Repository.CategoryRepo;
 using ProductService.Repository.CategoryRepo.Implementation;
@@ -13,8 +15,22 @@ using ProductServiceImplementation = ProductService.Services.ProductService.Impl
 
 var builder = WebApplication.CreateBuilder(args);
 
+var grpcPort = builder.Configuration.GetValue<int?>("Grpc:Port");
+
+builder.WebHost.ConfigureKestrel(options =>
+{
+    if (grpcPort.HasValue && grpcPort.Value > 0)
+    {
+        options.ListenAnyIP(grpcPort.Value, listenOptions =>
+        {
+            listenOptions.Protocols = HttpProtocols.Http2;
+        });
+    }
+});
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddGrpc();
 builder.Services.AddSwaggerGen();
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
@@ -37,6 +53,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseAuthorization();
 
+app.MapGrpcService<ProductLookupService>();
 app.MapControllers();
 
 app.Run();

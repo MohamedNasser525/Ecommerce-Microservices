@@ -25,6 +25,7 @@ services:
     ports: # "https://localhost:7114;http://localhost:5022"
     - "5022:8083" 
     - "7114:8084"
+    - "5008:5008"
     volumes:
       - ~/.aspnet/https:/https:ro
 
@@ -36,34 +37,3 @@ services:
     - "7098:8086"
     volumes:
       - ~/.aspnet/https:/https:ro
-
-
-  #   environment:
-  #     - ASPNETCORE_ENVIRONMENT=Development
-  #     - ASPNETCORE_HTTP_PORTS=8080
-  #     - ASPNETCORE_HTTPS_PORTS=8081
-  #   ports:
-  #     - "8080"
-  #     - "8081"
-  #   volumes:
-  #     - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
-  #     - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
-
-  # gateway:
-  #  environment:
-  #     - ASPNETCORE_ENVIRONMENT=Development
-  #  ports:
-  #   - "80"
-
-
-  # order:
-  #  environment:
-  #     - ASPNETCORE_ENVIRONMENT=Development
-  #  ports:
-  #   - "80"
-
-  # product:
-  #   environment:
-  #     - ASPNETCORE_ENVIRONMENT=Development
-  #   ports:
-  #   - "80"

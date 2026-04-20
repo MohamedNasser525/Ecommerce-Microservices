@@ -1,7 +1,10 @@
+using Grpc.Net.Client.Configuration;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using ProductGrpc;
 using OrderService.Helper;
+using OrderService.Grpc;
 using OrderService.Repository.OrderRepo;
 using OrderService.Repository.OrderRepo.Implementation;
 using OrderService.Services.OrderService;
@@ -17,6 +20,33 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.Configure<MongoDbSetting>(builder.Configuration.GetSection("MongoDb"));
 builder.Services.AddSingleton<MongoContext>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+builder.Services.AddGrpcClient<ProductLookup.ProductLookupClient>(options =>
+{
+    options.Address = new Uri(builder.Configuration["GrpcServices:Product"]
+        ?? throw new InvalidOperationException("gRPC product service address is not configured."));
+})
+.ConfigureChannel(options =>
+{
+    options.ServiceConfig = new ServiceConfig
+    {
+        MethodConfigs =
+        {
+            new MethodConfig
+            {
+                Names = { MethodName.Default },
+                RetryPolicy = new RetryPolicy
+                {
+                    MaxAttempts = 3,
+                    InitialBackoff = TimeSpan.FromMilliseconds(200),
+                    MaxBackoff = TimeSpan.FromSeconds(2),
+                    BackoffMultiplier = 2,
+                    RetryableStatusCodes = { Grpc.Core.StatusCode.Unavailable }
+                }
+            }
+        }
+    };
+});
+builder.Services.AddScoped<IProductGrpcClient, ProductGrpcClient>();
 builder.Services.AddScoped<IOrderService, OrderServiceImplementation>();
 builder.Services.AddSwaggerGen(options =>
 {

@@ -123,12 +123,12 @@ Main features:
      |                   |                         |
      v                   v                         v
 +------------+     +-------------+              +-----------+
-| Customer   |     | Product     | <---gRPC---> | Order     |
-| Service    |     | Service     |              | Service   |
+|  Customer  |     |   Product   | <---gRPC---> |   Order   |
+|  Service   |     |   Service   |              |  Service  |
 +------------+     +-------------+              +-----------+
       | EF               | EF                        | 
 +------------+     +-------------+              +-----------+
-| Sql Server |     | Sql Server  |              | mongodb   |
+| Sql Server |     | Sql Server  |              |  Mongodb  |
 +------------+     +-------------+              +-----------+
 ```
 

@@ -5,7 +5,7 @@ namespace OrderService.Models
     public class OrderDetail
     {
         [Required]
-        public int ProductId { get; set; }
+        public Guid ProductId { get; set; }
 
         [Range(0.01, double.MaxValue)]
         public decimal Quantity { get; set; }

@@ -6,7 +6,7 @@ namespace Customer.Controllers
     // Renamed to CustomerController to follow .NET conventions
     public class CustomerController : ControllerBase
     {
-        [HttpGet("ping")]
+        [HttpGet]
         public IActionResult Ping()
         {
             return Ok("it work Customer Service");

@@ -45,23 +45,16 @@ builder.Services.AddSwaggerGen(options =>
             Name = "Mohamed Nasser",
             Email = "mo.nasser525@gmail.com",
         },
-        //Description = "AuthServer is a social media platform It allows users to create personal profiles, connect with friends, share posts , and interact with posts through comments and reactions, the project now allows you to chat with your friends any time offline by Rest API and online by SignalR. With highly efficient secure technology, that saves you and your data from any attacker.",
-
-        //License = new OpenApiLicense
-        //{
-        //    Name = "The API License",
-        //    Url = new Uri("https://localhost/api-license"),
-        //}
     });
- //   options.EnableAnnotations();
+    //   options.EnableAnnotations();
     options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-    {
-        Description = "Standard Authorization header using the Bearer scheme (JWT). Example: bearer {token}",
-        Name = "Authorization",
-        In = ParameterLocation.Header,
-        Type = SecuritySchemeType.Http,
-        Scheme = "bearer",
-        BearerFormat = "JWT"
+        {
+            Description = "Standard Authorization header using the Bearer scheme (JWT). Example: bearer {token}",
+            Name = "Authorization",
+            In = ParameterLocation.Header,
+            Type = SecuritySchemeType.Http,
+            Scheme = "bearer",
+            BearerFormat = "JWT"
 
     });
     options.AddSecurityRequirement(new OpenApiSecurityRequirement
@@ -80,6 +73,7 @@ builder.Services.AddSwaggerGen(options =>
     });
   //  options.OperationFilter<AppendAuthorizeToSummaryOperationFilter>();
 });
+
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;

@@ -125,7 +125,7 @@ Main features:
 | Customer   |     | Product     | <---gRPC---> | Order     |
 | Service    |     | Service     |              | Service   |
 +------------+     +-------------+              +-----------+
-      | EF               |                          | EF
+      | EF               | EF                        | 
 +------------+     +-------------+              +-----------+
 | Sql Server |     | Sql Server  |              | mongodb   |
 +------------+     +-------------+              +-----------+
